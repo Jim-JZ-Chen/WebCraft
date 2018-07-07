@@ -33,6 +33,8 @@ Player.prototype.setWorld = function( world )
 	this.keys = {};
 	this.buildMaterial = BLOCK.DIRT;
 	this.eventHandlers = {};
+	this.targetPitch = 0;
+	this.targetYaw = 0;
 }
 
 // setClient( client )
@@ -57,9 +59,13 @@ Player.prototype.setInputCanvas = function( id )
 	document.onkeyup = function( e ) { if ( e.target.tagName != "INPUT" ) { t.onKeyEvent( e.keyCode, false ); return false; } }
 	canvas.onmousedown = function( e ) { t.onMouseEvent( e.clientX, e.clientY, MOUSE.DOWN, e.which == 3 ); return false; }
 	canvas.onmouseup = function( e ) { t.onMouseEvent( e.clientX, e.clientY, MOUSE.UP, e.which == 3 ); return false; }
-	canvas.onmousemove = function( e ) { t.onMouseEvent( e.clientX, e.clientY, MOUSE.MOVE, e.which == 3 ); return false; }
+    
+	//canvas.onmousemove = function (e) {t.onMouseEvent(e.clientX, e.clientY, MOUSE.MOVE, e.which == 3); return false;}
+                             
+    // Hook mouse move events
+	document.addEventListener("mousemove", function (e) {t.onMouseEvent(e.movementX, e.movementY, MOUSE.MOVE, e.which == 3);return false;}, false);                                
+    document.addEventListener("click",  function( e ) { t.onMouseEvent( window.innerWidth/2, window.innerHeight/2, MOUSE.UP, e.which == 3 ); });
 }
-
 // setMaterialSelector( id )
 //
 // Sets the table with the material selectors.
@@ -118,7 +124,8 @@ Player.prototype.onKeyEvent = function( keyCode, down )
 	this.keys[key] = down;
 	this.keys[keyCode] = down;
 	
-	if ( !down && key == "t" && this.eventHandlers["openChat"] ) this.eventHandlers.openChat();
+	if (!down && key == "t" && this.eventHandlers["openChat"]) this.eventHandlers.openChat();
+
 }
 
 // onMouseEvent( x, y, type, rmb )
@@ -126,26 +133,41 @@ Player.prototype.onKeyEvent = function( keyCode, down )
 // Hook for mouse input.
 
 Player.prototype.onMouseEvent = function( x, y, type, rmb )
-{
+{		console.log("click1 " + type);
 	if ( type == MOUSE.DOWN ) {
+				
 		this.dragStart = { x: x, y: y };
 		this.mouseDown = true;
 		this.yawStart = this.targetYaw = this.angles[1];
 		this.pitchStart = this.targetPitch = this.angles[0];
 	} else if ( type == MOUSE.UP ) {
-		if ( Math.abs( this.dragStart.x - x ) + Math.abs( this.dragStart.y - y ) < 4 )	
-			this.doBlockAction( x, y, !rmb );
+
+		//if ( Math.abs( this.dragStart.0 - x ) + Math.abs( this.dragStart.y - y ) < 4 )	
+		this.doBlockAction( x, y, !rmb );
 
 		this.dragging = false;
 		this.mouseDown = false;
 		this.canvas.style.cursor = "default";
-	} else if ( type == MOUSE.MOVE && this.mouseDown ) {
-		this.dragging = true;
-		this.targetPitch = this.pitchStart - ( y - this.dragStart.y ) / 200;
-		this.targetYaw = this.yawStart + ( x - this.dragStart.x ) / 200;
 
-		this.canvas.style.cursor = "move";
 	}
+
+    if (type == MOUSE.MOVE) {
+        this.dragging = true;
+
+        var result = this.targetPitch - y / 1000;
+        if(result < Math.PI/2 && result > -Math.PI/2)
+        {
+            this.targetPitch -= y / 1000;
+        }
+
+        
+        this.targetYaw += x / 1000;
+        //console.log(this.targetPitch + " " + );
+
+        this.canvas.style.cursor = "move";
+    }
+
+
 }
 
 // doBlockAction( x, y )
@@ -154,17 +176,22 @@ Player.prototype.onMouseEvent = function( x, y, type, rmb )
 
 Player.prototype.doBlockAction = function( x, y, destroy )
 {
+
 	var bPos = new Vector( Math.floor( this.pos.x ), Math.floor( this.pos.y ), Math.floor( this.pos.z ) );
 	var block = this.canvas.renderer.pickAt( new Vector( bPos.x - 4, bPos.y - 4, bPos.z - 4 ), new Vector( bPos.x + 4, bPos.y + 4, bPos.z + 4 ), x, y );
-	
+
 	if ( block != false )
 	{
+
 		var obj = this.client ? this.client : this.world;
 		
 		if ( destroy )
+		{
+			console.log("setBlock" +" "+  block.x +" "+  block.y +" "+ block.z);
 			obj.setBlock( block.x, block.y, block.z, BLOCK.AIR );
-		else
+		}else{
 			obj.setBlock( block.x + block.n.x, block.y + block.n.y, block.z + block.n.z, this.buildMaterial );
+		}
 	}
 }
 
