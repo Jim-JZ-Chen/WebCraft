@@ -66,6 +66,7 @@ Player.prototype.setInputCanvas = function( id )
 	document.addEventListener("mousemove", function (e) {t.onMouseEvent(e.movementX, e.movementY, MOUSE.MOVE, e.which == 3);return false;}, false);                                
     document.addEventListener("click",  function( e ) { t.onMouseEvent( window.innerWidth/2, window.innerHeight/2, MOUSE.UP, e.which == 3 ); });
 }
+
 // setMaterialSelector( id )
 //
 // Sets the table with the material selectors.
@@ -124,7 +125,7 @@ Player.prototype.onKeyEvent = function( keyCode, down )
 	this.keys[key] = down;
 	this.keys[keyCode] = down;
 	
-	if (!down && key == "t" && this.eventHandlers["openChat"]) this.eventHandlers.openChat();
+	if ( !down && key == "t" && this.eventHandlers["openChat"] ) this.eventHandlers.openChat();
 
 }
 
@@ -157,22 +158,18 @@ Player.prototype.onMouseEvent = function( x, y, type, rmb )
 
 Player.prototype.doBlockAction = function( x, y, destroy )
 {
-
 	var bPos = new Vector( Math.floor( this.pos.x ), Math.floor( this.pos.y ), Math.floor( this.pos.z ) );
 	var block = this.canvas.renderer.pickAt( new Vector( bPos.x - 4, bPos.y - 4, bPos.z - 4 ), new Vector( bPos.x + 4, bPos.y + 4, bPos.z + 4 ), x, y );
 
 	if ( block != false )
 	{
-
 		var obj = this.client ? this.client : this.world;
 		
 		if ( destroy )
-		{
-			console.log("setBlock" +" "+  block.x +" "+  block.y +" "+ block.z);
+		
 			obj.setBlock( block.x, block.y, block.z, BLOCK.AIR );
-		}else{
+		else
 			obj.setBlock( block.x + block.n.x, block.y + block.n.y, block.z + block.n.z, this.buildMaterial );
-		}
 	}
 }
 
