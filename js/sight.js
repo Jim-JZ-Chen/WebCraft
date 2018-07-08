@@ -13,6 +13,8 @@ class Sight
 					<span style="font-size:40px">Click to play</span>
 					<br />
 					(W, A, S, D = Move, left click to destroy block, right click to place block)
+					<br />
+					<button id="FullScreen">Full Screen </button>
 				</div>
 
 			</div>
@@ -32,6 +34,8 @@ class Sight
 		//this two div element is the crosshair on the center of screen
 		var sight1 = document.getElementById( 'sight1' );//horiztal
 		var sight2 = document.getElementById( 'sight2' );//vertial
+
+		var FullScreenBtn = document.getElementById( 'FullScreen' );//Full Screen Button
 		
 		//hide the crosshair
 		blocker.style.display = 'block';
@@ -90,6 +94,11 @@ class Sight
 			element.requestPointerLock = element.requestPointerLock || element.mozRequestPointerLock || element.webkitRequestPointerLock;
 			element.requestPointerLock();
 
+		}, false );
+
+		FullScreenBtn.addEventListener( 'click', function ( event ) 
+		{
+			FullScreen.requestFullScreen();
 		}, false );
 	}
 }
