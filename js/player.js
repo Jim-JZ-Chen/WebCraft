@@ -55,7 +55,6 @@ Player.prototype.setInputCanvas = function( id )
 	var canvas = this.canvas = document.getElementById( id );
 
 	var t = this;
-
 	document.onkeydown = function( e ) { if ( e.target.tagName != "INPUT" ) { t.onKeyEvent( e.keyCode, true ); return false; } }
 	document.onkeyup = function( e ) { if ( e.target.tagName != "INPUT" ) { t.onKeyEvent( e.keyCode, false ); return false; } }
 	//canvas.onmousedown = function( e ) { t.onMouseEvent( e.clientX, e.clientY, MOUSE.DOWN, e.which == 3 ); return false; }
@@ -126,7 +125,6 @@ Player.prototype.onKeyEvent = function( keyCode, down )
 	this.keys[keyCode] = down;
 	
 	if ( !down && key == "t" && this.eventHandlers["openChat"] ) this.eventHandlers.openChat();
-
 }
 
 // onMouseEvent( x, y, type, rmb )
@@ -166,7 +164,6 @@ Player.prototype.doBlockAction = function( x, y, destroy )
 		var obj = this.client ? this.client : this.world;
 		
 		if ( destroy )
-		
 			obj.setBlock( block.x, block.y, block.z, BLOCK.AIR );
 		else
 			obj.setBlock( block.x + block.n.x, block.y + block.n.y, block.z + block.n.z, this.buildMaterial );
