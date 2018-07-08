@@ -18,6 +18,7 @@
 		<script src="js/physics.js" type="text/javascript"></script>
 		<script src="js/player.js" type="text/javascript"></script>
         <script src="js/sight.js" type="text/javascript"></script>
+        <script src="js/fullScreen.js" type="text/javascript"></script>
 	</head>
 	
 	<body oncontextmenu="return false">
@@ -31,6 +32,9 @@
 		
 		<!-- Initialisation code -->
 		<script type="text/javascript">		
+
+            // Make the body go full screen.
+            FullScreen.requestFullScreen();
 
             //init sight script
             Sight.init();	
