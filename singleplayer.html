@@ -17,6 +17,7 @@
 		<script src="js/render.js" type="text/javascript"></script>
 		<script src="js/physics.js" type="text/javascript"></script>
 		<script src="js/player.js" type="text/javascript"></script>
+        <script src="js/sight.js" type="text/javascript"></script>
 	</head>
 	
 	<body oncontextmenu="return false">
@@ -29,7 +30,11 @@
 		</table>
 		
 		<!-- Initialisation code -->
-		<script type="text/javascript">			
+		<script type="text/javascript">		
+
+            //init sight script
+            Sight.init();	
+
 			// Create a new flat world
 			var world = new World( 16, 16, 16 );
 			world.createFlatWorld( 6 );
