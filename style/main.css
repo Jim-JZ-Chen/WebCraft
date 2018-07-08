@@ -147,3 +147,72 @@ body {
 	font-family: minecraftia;
 	font-size: 16px;
 }
+
+/*the dark background of the instructions*/
+#blocker {
+
+	position: absolute;
+
+	width: 100%;
+	height: 100%;
+
+	background-color: rgba(0,0,0,0.5);
+	z-index : 3;
+}
+
+/*the "Click to play" instructions*/
+#instructions {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+
+	display: -webkit-box;
+	display: -moz-box;
+	display: box;
+
+	-webkit-box-orient: horizontal;
+	-moz-box-orient: horizontal;
+	box-orient: horizontal;
+
+	-webkit-box-pack: center;
+	-moz-box-pack: center;
+	box-pack: center;
+
+	-webkit-box-align: center;
+	-moz-box-align: center;
+	box-align: center;
+
+	color: #ffffff;
+	text-align: center;
+
+	cursor: pointer;
+	z-index : 3;
+}
+
+/*the crosshair (horizontal)*/
+#sight1
+{
+	background-color: black;
+	height: 2px;
+	width: 15px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin-right: -50%;
+	transform: translate(-50%, -50%);
+	z-index : 3;
+}
+
+/*the crosshair (vertical)*/
+#sight2
+{
+	background-color: black;
+	height: 15px;
+	width: 2px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin-right: -50%;
+	transform: translate(-50%, -50%);
+	z-index : 3;
+}

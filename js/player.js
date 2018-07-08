@@ -55,11 +55,11 @@ Player.prototype.setInputCanvas = function( id )
 	var canvas = this.canvas = document.getElementById( id );
 
 	var t = this;
-	document.onkeydown = function( e ) { if ( e.target.tagName != "INPUT" ) { t.onKeyEvent( e.keyCode, true ); return false; } }
-	document.onkeyup = function( e ) { if ( e.target.tagName != "INPUT" ) { t.onKeyEvent( e.keyCode, false ); return false; } }
-	canvas.onmousedown = function( e ) { t.onMouseEvent( e.clientX, e.clientY, MOUSE.DOWN, e.which == 3 ); return false; }
-	canvas.onmouseup = function( e ) { t.onMouseEvent( e.clientX, e.clientY, MOUSE.UP, e.which == 3 ); return false; }
-    
+
+	//document.onkeydown = function( e ) { if ( e.target.tagName != "INPUT" ) { t.onKeyEvent( e.keyCode, true ); return false; } }
+	//document.onkeyup = function( e ) { if ( e.target.tagName != "INPUT" ) { t.onKeyEvent( e.keyCode, false ); return false; } }
+	//canvas.onmousedown = function( e ) { t.onMouseEvent( e.clientX, e.clientY, MOUSE.DOWN, e.which == 3 ); return false; }
+	//canvas.onmouseup = function( e ) { t.onMouseEvent( e.clientX, e.clientY, MOUSE.UP, e.which == 3 ); return false; }
 	//canvas.onmousemove = function (e) {t.onMouseEvent(e.clientX, e.clientY, MOUSE.MOVE, e.which == 3); return false;}
                              
     // Hook mouse move events
@@ -133,41 +133,22 @@ Player.prototype.onKeyEvent = function( keyCode, down )
 // Hook for mouse input.
 
 Player.prototype.onMouseEvent = function( x, y, type, rmb )
-{		console.log("click1 " + type);
-	if ( type == MOUSE.DOWN ) {
-				
-		this.dragStart = { x: x, y: y };
-		this.mouseDown = true;
-		this.yawStart = this.targetYaw = this.angles[1];
-		this.pitchStart = this.targetPitch = this.angles[0];
-	} else if ( type == MOUSE.UP ) {
-
-		//if ( Math.abs( this.dragStart.0 - x ) + Math.abs( this.dragStart.y - y ) < 4 )	
+{
+	if ( type == MOUSE.UP ) {
 		this.doBlockAction( x, y, !rmb );
-
 		this.dragging = false;
-		this.mouseDown = false;
-		this.canvas.style.cursor = "default";
-
 	}
-
-    if (type == MOUSE.MOVE) {
+	else if (type == MOUSE.MOVE) {
         this.dragging = true;
 
+		//check if is not look upward or downward, before apply
         var result = this.targetPitch - y / 1000;
         if(result < Math.PI/2 && result > -Math.PI/2)
         {
             this.targetPitch -= y / 1000;
         }
-
-        
         this.targetYaw += x / 1000;
-        //console.log(this.targetPitch + " " + );
-
-        this.canvas.style.cursor = "move";
     }
-
-
 }
 
 // doBlockAction( x, y )
