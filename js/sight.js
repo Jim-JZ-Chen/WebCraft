@@ -5,6 +5,7 @@ class Sight
 	//initialization
 	static init()
 	{
+		//add some html code 
 		var a =`
 			<div id="blocker">
 
@@ -24,12 +25,13 @@ class Sight
 		document.write(a);
 
 		//get the html element
-		var blocker = document.getElementById( 'blocker' );
-		var instructions = document.getElementById( 'instructions' );
 
-		//this two div element is the front sight on the center of screen
-		var sight1 = document.getElementById( 'sight1' );
-		var sight2 = document.getElementById( 'sight2' );
+		var blocker = document.getElementById( 'blocker' );//the dark background
+		var instructions = document.getElementById( 'instructions' );//the "Click to play" laber
+
+		//this two div element is the crosshair on the center of screen
+		var sight1 = document.getElementById( 'sight1' );//horiztal
+		var sight2 = document.getElementById( 'sight2' );//vertial
 		
 		//hide the crosshair
 		blocker.style.display = 'block';
@@ -52,11 +54,11 @@ class Sight
 		var pointerlockchange = function ( event ) 
 		{
 			if ( document.pointerLockElement === element || document.mozPointerLockElement === element || document.webkitPointerLockElement === element ) 
-			{
+			{//hide the instructions and show the crosshair
 				blocker.style.display = 'none';
 				sight1.style.display = 'block';
 				sight2.style.display = 'block';
-			} else {
+			} else {//show the instructions and hide the crosshair
 				blocker.style.display = 'block';
 				sight1.style.display = 'none';
 				sight2.style.display = 'none';
